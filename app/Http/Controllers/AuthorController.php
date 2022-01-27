@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\AuthorService;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+
 
 class AuthorController extends Controller
 {
@@ -23,8 +23,8 @@ class AuthorController extends Controller
 
     public function index(Request $request)
     {
-        $response = Http::get('http://author-api.test/authors');
-        return $this->successResponse($response);
+
+        return $this->successResponse($this->authorService->getAuthors());
     }
 
     public function store(Request $request)

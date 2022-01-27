@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Http;
+
 class AuthorService
 {
     /**
@@ -13,5 +15,10 @@ class AuthorService
     public function __construct()
     {
         $this->baseUri = config('services.authors.base_uri');
+    }
+
+    public function getAuthors()
+    {
+        return Http::get($this->baseUri . '/authors');
     }
 }
