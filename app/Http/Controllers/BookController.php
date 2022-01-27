@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
-class ExampleController extends Controller
+class BookController extends Controller
 {
     use ApiResponser;
     /**
