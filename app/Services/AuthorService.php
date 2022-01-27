@@ -15,6 +15,10 @@ class AuthorService
 
     public function __construct()
     {
+        /**
+         *
+         * Seteando la variable base de la url desde el archivo .env pasando por la configuración
+         */
         $this->baseUri = config('services.authors.base_uri');
     }
 
