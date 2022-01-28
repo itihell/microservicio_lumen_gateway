@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AuthorService;
 use App\Services\BookService;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
@@ -9,15 +10,19 @@ use Illuminate\Http\Request;
 class BookController extends Controller
 {
     use ApiResponser;
+
     public $bookService;
+    public $authorService;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(BookService $bookService)
+    public function __construct(BookService $bookService, AuthorService $authorService)
     {
         $this->bookService = $bookService;
+        $this->authorService = $authorService;
     }
 
     public function index(Request $request)
@@ -27,7 +32,11 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        return $this->successResponse($this->bookService->createBook($request));
+        $response = $this->authorService->showAuthor($request->author_id);
+        if ($response->successful()) {
+            return $this->successResponse($this->bookService->createBook($request));
+        }
+        return $this->successResponse($response->body(), $response->status());
     }
 
     public function show($book)
@@ -37,7 +46,11 @@ class BookController extends Controller
 
     public function update(Request $request, $book)
     {
-        return $this->successResponse($this->bookService->updateBook($request, $book));
+        $response = $this->authorService->showAuthor($request->author_id);
+        if ($response->successful()) {
+            return $this->successResponse($this->bookService->updateBook($request, $book));
+        }
+        return $this->successResponse($response->body(), $response->status());
     }
 
     public function destroy($book)

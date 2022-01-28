@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -30,7 +31,9 @@ class BookService
 
     public function createBook(Request $request)
     {
-        return Http::post($this->baseUri . '/books', $request->all());
+        return Http::retry(3, 100, function ($exception) {
+            return $exception instanceof ConnectionException;
+        })->post($this->baseUri . "/books", $request->all());
     }
 
     public function updateBook(Request $request, $books)
