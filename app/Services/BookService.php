@@ -25,7 +25,7 @@ class BookService
 
     public function showBook($books)
     {
-        return Http::get($this->baseUri . "/books/$books");
+        return Http::get($this->baseUri . "/books/{$books}");
     }
 
     public function createBook(Request $request)
