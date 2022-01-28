@@ -35,7 +35,7 @@ class BookService
 
     public function updateBook(Request $request, $books)
     {
-        return Http::patch($this->baseUri . "/autbookshors/{$books}", $request->all());
+        return Http::patch($this->baseUri . "/books/{$books}", $request->all());
     }
 
     public function deleteBook($books)
