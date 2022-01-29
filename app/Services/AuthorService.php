@@ -12,6 +12,7 @@ class AuthorService
      *  @var string
      */
     public $baseUri;
+    public $secret;
 
     public function __construct()
     {
@@ -20,6 +21,7 @@ class AuthorService
          * Seteando la variable base de la url desde el archivo .env pasando por la configuración
          */
         $this->baseUri = config('services.authors.base_uri');
+        $this->secret = config('services.authors.secret');
     }
 
     public function getAuthors()

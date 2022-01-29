@@ -10,13 +10,15 @@ class BookService
 {
     /**
      *  Url base para consumir endpoint del microservicio de authors
-     *  @var string
+     * @var string
      */
     public $baseUri;
+    public $secret;
 
     public function __construct()
     {
         $this->baseUri = config('services.books.base_uri');
+        $this->secret = config('services.books.secret');
     }
 
     public function getBooks()
