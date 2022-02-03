@@ -13,6 +13,18 @@
 |
 */
 $router->group(['middleware' => 'client.credentials'], function () use ($router) {
+    $router->group(['prefix' => 'users'], function () use ($router) {
+        $router->get('/', 'UserController@index');
+        $router->post('/', 'UserController@store');
+        $router->get('{user}', 'UserController@show');
+        $router->put('{user}', 'UserController@update');
+        $router->patch('{user}', 'UserController@update');
+        $router->delete('{user}', 'UserController@destroy');
+    });
+});
+
+$router->group(['middleware' => 'auth:api'], function () use ($router) {
+    
     $router->group(['prefix' => 'authors'], function () use ($router) {
         $router->get('/', 'AuthorController@index');
         $router->post('/', 'AuthorController@store');
@@ -21,6 +33,7 @@ $router->group(['middleware' => 'client.credentials'], function () use ($router)
         $router->patch('{author}', 'AuthorController@update');
         $router->delete('{author}', 'AuthorController@destroy');
     });
+
     $router->group(['prefix' => 'books'], function () use ($router) {
         $router->get('/', 'BookController@index');
         $router->post('/', 'BookController@store');
@@ -28,6 +41,10 @@ $router->group(['middleware' => 'client.credentials'], function () use ($router)
         $router->put('{book}', 'BookController@update');
         $router->patch('{book}', 'BookController@update');
         $router->delete('{book}', 'BookController@destroy');
+    });
+
+    $router->group(['prefix' => 'me'], function () use ($router) {
+        $router->get('/', 'UserController@me');
     });
 });
 

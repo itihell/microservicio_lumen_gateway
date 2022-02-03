@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return $this->validResponse($users);
+        return $this->dataResponse($users);
     }
 
     /**
@@ -45,14 +45,15 @@ class UserController extends Controller
             'password' => 'required|min:8|confirmed',
         ];
 
-        $this->validate($request, $rules);
+        $fields = $this->validate($request, $rules);
 
-        $fields = $request->all();
+
         $fields['password'] = Hash::make($request->password);
+        //dd($fields);
 
         $user = User::create($fields);
 
-        return $this->validResponse($user, Response::HTTP_CREATED);
+        return $this->dataResponse($user, Response::HTTP_CREATED);
     }
 
     /**
@@ -63,7 +64,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($user);
 
-        return $this->validResponse($user);
+        return $this->dataResponse($user);
     }
 
     /**
@@ -94,7 +95,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return $this->validResponse($user);
+        return $this->dataResponse($user);
     }
 
     /**
@@ -107,7 +108,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return $this->validResponse($user);
+        return $this->dataResponse($user);
     }
 
     /**
@@ -116,6 +117,6 @@ class UserController extends Controller
      */
     public function me(Request $request)
     {
-        return $this->validResponse($request->user());
+        return $this->dataResponse($request->user());
     }
 }

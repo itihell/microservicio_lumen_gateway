@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Http\Response;
@@ -101,6 +102,14 @@ class Handler extends ExceptionHandler
             $code = $exception->getCode();
             return $this->errorMessage($message, $code);
         }
+
+        if ($exception instanceof QueryException) {
+            $message = $exception->getMessage();
+            $code = $exception->getCode();
+
+            return $this->errorMessage($message, 500);
+        }
+
 
         if (env('APP_DEBUG', false)) {
             return parent::render($request, $exception);
