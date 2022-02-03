@@ -2,12 +2,16 @@
 
 namespace App\Services;
 
+use App\Traits\ApiMicroservices;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
+
 class BookService
 {
+    use ApiMicroservices;
+
     /**
      *  Url base para consumir endpoint del microservicio de authors
      * @var string
@@ -23,28 +27,26 @@ class BookService
 
     public function getBooks()
     {
-        return Http::get($this->baseUri . '/books');
+        return $this->apiGet('/books');
     }
 
     public function showBook($books)
     {
-        return Http::get($this->baseUri . "/books/{$books}");
+        return $this->apiGet("/books/{$books}");
     }
 
     public function createBook(Request $request)
     {
-        return Http::retry(3, 100, function ($exception) {
-            return $exception instanceof ConnectionException;
-        })->post($this->baseUri . "/books", $request->all());
+        return $this->apiPost("/books", $request->all());
     }
 
     public function updateBook(Request $request, $books)
     {
-        return Http::patch($this->baseUri . "/books/{$books}", $request->all());
+        return $this->apiPatch("/books/{$books}", $request->all());
     }
 
     public function deleteBook($books)
     {
-        return Http::delete($this->baseUri . "/books/{$books}");
+        return $this->apiDelete("/books/{$books}");
     }
 }

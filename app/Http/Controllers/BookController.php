@@ -32,11 +32,8 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        $response = $this->authorService->showAuthor($request->author_id);
-        if ($response->successful()) {
-            return $this->successResponse($this->bookService->createBook($request));
-        }
-        return $this->successResponse($response->body(), $response->status());
+        $this->authorService->showAuthor($request->author_id);
+        return $this->successResponse($this->bookService->createBook($request));
     }
 
     public function show($book)
@@ -46,11 +43,8 @@ class BookController extends Controller
 
     public function update(Request $request, $book)
     {
-        $response = $this->authorService->showAuthor($request->author_id);
-        if ($response->successful()) {
-            return $this->successResponse($this->bookService->updateBook($request, $book));
-        }
-        return $this->successResponse($response->body(), $response->status());
+        $this->authorService->showAuthor($request->author_id);
+        return $this->successResponse($this->bookService->updateBook($request, $book));
     }
 
     public function destroy($book)

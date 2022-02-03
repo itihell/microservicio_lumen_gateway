@@ -2,14 +2,17 @@
 
 namespace App\Services;
 
+use App\Traits\ApiMicroservices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class AuthorService
 {
+    use ApiMicroservices;
+
     /**
      *  Url base para consumir endpoint del microservicio de authors
-     *  @var string
+     * @var string
      */
     public $baseUri;
     public $secret;
@@ -26,26 +29,26 @@ class AuthorService
 
     public function getAuthors()
     {
-        return Http::get($this->baseUri . '/authors');
+        return $this->apiGet('/authors');
     }
 
     public function showAuthor($author)
     {
-        return Http::get($this->baseUri . "/authors/$author");
+        return $this->apiGet("/authors/$author");
     }
 
     public function createAuthor(Request $request)
     {
-        return Http::post($this->baseUri . '/authors', $request->all());
+        return $this->apiPost('/authors', $request->all());
     }
 
     public function updateAuthor(Request $request, $author)
     {
-        return Http::patch($this->baseUri . "/authors/{$author}", $request->all());
+        return $this->apiPatch("/authors/{$author}", $request->all());
     }
 
     public function deleteAuthor($author)
     {
-        return Http::delete($this->baseUri . "/authors/{$author}");
+        return $this->apiDelete("/authors/{$author}");
     }
 }

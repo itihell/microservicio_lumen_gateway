@@ -83,13 +83,17 @@ class Handler extends ExceptionHandler
             return $this->errorResponse($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        if ($exception instanceof HttpClientException) {
-            $message = $exception->getMessage();
+        if ($exception instanceof ClientException) {
+            $message = $exception->getResponse()->getBody();
             $code = $exception->getCode();
-            if ($code === 0) {
-                $code = 400;
-            }
-            return $this->errorResponse($message, $code);
+
+            return $this->errorMessage($message, $code);
+        }
+
+        if ($exception instanceof HttpClientException) {
+            $code = $exception->getCode();
+            $message = $exception->getMessage();
+            return $this->errorMessage($message, $code);
         }
 
         if ($exception instanceof ConnectionException) {
